@@ -74,7 +74,8 @@ const blogCtrl = {
             let: { user_id: "$user" },
             pipeline: [
               { $match: { $expr: { $eq: ["$_id", "$$user_id"] } } },
-              { $project: { password: 0 }}
+              { $project: { password: 0 }},
+              
             ],
             as: "user"
           }
@@ -93,7 +94,8 @@ const blogCtrl = {
         // array -> object
         { $unwind: "$category" },
         // Sorting
-        { $sort: { "createdAt": -1 } },
+        { $sort: { "createdAt": -1 }},
+        { $limit: 2000 },
         // Group by category
         {
           $group: {
@@ -113,7 +115,7 @@ const blogCtrl = {
             name: 1
           }
         }
-      ])
+      ]).allowDiskUse(true).collation({locale: "en_US", numericOrdering: true});
 
       res.json(blogs)
       
@@ -142,7 +144,8 @@ const blogCtrl = {
                   let: { user_id: "$user" },
                   pipeline: [
                     { $match: { $expr: { $eq: ["$_id", "$$user_id"] } } },
-                    { $project: { password: 0 }}
+                    { $project: { password: 0 }},
+                    
                   ],
                   as: "user"
                 }
@@ -169,8 +172,10 @@ const blogCtrl = {
             count: { $arrayElemAt: ["$totalCount.count", 0] },
             totalData: 1
           }
-        }
-      ])
+        },
+        
+      ],
+      {allowDiskUse: true})
 
       const blogs = Data[0].totalData;
       const count = Data[0].count;
@@ -209,7 +214,8 @@ const blogCtrl = {
                   let: { user_id: "$user" },
                   pipeline: [
                     { $match: { $expr: { $eq: ["$_id", "$$user_id"] } } },
-                    { $project: { password: 0 }}
+                    { $project: { password: 0 }},
+                    
                   ],
                   as: "user"
                 }
@@ -237,7 +243,7 @@ const blogCtrl = {
             totalData: 1
           }
         }
-      ])
+      ]).allowDiskUse(true);
 
       const blogs = Data[0].totalData;
       const count = Data[0].count;

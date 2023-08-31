@@ -25,7 +25,7 @@ app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use((0, morgan_1.default)('dev'));
 app.use((0, cors_1.default)({
-    origin: `${process.env.BASE_URL}`,
+    origin: 'http://localhost:3000',
     credentials: true
 }));
 //socket.io

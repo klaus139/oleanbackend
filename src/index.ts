@@ -23,7 +23,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors({
-    origin: `${process.env.BASE_URL}`,
+    origin:'http://localhost:3000', 
     credentials: true
 }))
 //socket.io
